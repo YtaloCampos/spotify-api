@@ -5,6 +5,7 @@ class SpotifyPublicProfileService {
 
   async perform(params: SpotifyPublicProfile.Params): Promise<void> {
     await this.loadSpotifyUser.perform({ username: params.username });
+    return undefined;
   }
 }
 
@@ -16,13 +17,19 @@ namespace LoadSpotifyUser {
   export type Params = {
     username: string;
   };
+
+  export type Result = undefined;
 }
 
 class LoadSpotifyUserSpy implements LoadSpotifyUser {
   public username?: string;
+  public result: undefined;
 
-  async perform(params: LoadSpotifyUser.Params): Promise<void> {
+  async perform(
+    params: LoadSpotifyUser.Params
+  ): Promise<LoadSpotifyUser.Result> {
     this.username = params.username;
+    return this.result;
   }
 }
 
@@ -36,5 +43,17 @@ describe("SpotifyPublicProfileService", () => {
     });
 
     expect(loadSpotifyUserApi.username).toBe("any_username");
+  });
+
+  it("should return undefined when loadSpotifyUserApi returns undefined", async () => {
+    const loadSpotifyUserApi = new LoadSpotifyUserSpy();
+    loadSpotifyUserApi.result = undefined;
+    const sut = new SpotifyPublicProfileService(loadSpotifyUserApi);
+
+    const result = await sut.perform({
+      username: "any_username",
+    });
+
+    expect(result).toBe(undefined);
   });
 });
