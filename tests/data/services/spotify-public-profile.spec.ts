@@ -34,7 +34,7 @@ class LoadSpotifyUserSpy implements LoadSpotifyUser {
 }
 
 describe("SpotifyPublicProfileService", () => {
-  it("Should to call spotify public profile with correct params", async () => {
+  it("should to call spotify public profile with correct params", async () => {
     const loadSpotifyUserApi = new LoadSpotifyUserSpy();
     const sut = new SpotifyPublicProfileService(loadSpotifyUserApi);
 
