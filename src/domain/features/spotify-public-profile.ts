@@ -9,8 +9,6 @@ export interface SpotifyPublicProfile {
 
 export namespace SpotifyPublicProfile {
   export type Params = {
-    clientId: string;
-    clientSecret: string;
     username: string;
   };
 

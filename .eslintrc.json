@@ -10,6 +10,8 @@
     "@typescript-eslint/no-non-null-assertion": "off",
     "@typescript-eslint/member-delimiter-style": "off",
     "@typescript-eslint/semi": "off",
-    "@typescript-eslint/quotes": "off"
+    "@typescript-eslint/quotes": "off",
+    "@typescript-eslint/space-before-function-paren": "off",
+    "comma-dangle": "off"
   }
 }
