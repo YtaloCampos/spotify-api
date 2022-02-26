@@ -1,11 +1,17 @@
 export interface LoadUserApi {
-  perform: (params: LoadUserApi.Params) => Promise<void>;
+  perform: (params: LoadUserApi.Params) => Promise<LoadUserApi.Result>;
 }
 
 export namespace LoadUserApi {
+  type ExternalUrls = { spotify: string };
+
   export type Params = {
     username: string;
   };
 
-  export type Result = undefined;
+  export type Result = {
+    display_name: string;
+    external_urls: ExternalUrls;
+    id: string;
+  };
 }
