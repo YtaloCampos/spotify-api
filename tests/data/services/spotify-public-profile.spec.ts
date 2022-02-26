@@ -1,9 +1,9 @@
-import { LoadUser } from "@/data/interfaces";
+import { LoadUserApi } from "@/data/interfaces/apis";
 import { SpotifyPublicProfileService } from "@/data/services";
 import { mock, MockProxy } from "jest-mock-extended";
 
 describe("SpotifyPublicProfileService", () => {
-  let loadSpotifyUser: MockProxy<LoadUser>;
+  let loadSpotifyUser: MockProxy<LoadUserApi>;
   let sut: SpotifyPublicProfileService;
 
   beforeEach(() => {
