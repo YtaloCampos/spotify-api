@@ -1,25 +1,5 @@
-import { SpotifyPublicProfile } from "@/domain/features";
-
-class SpotifyPublicProfileService {
-  constructor(private readonly loadSpotifyUser: LoadSpotifyUser) {}
-
-  async perform(params: SpotifyPublicProfile.Params): Promise<void> {
-    await this.loadSpotifyUser.perform({ username: params.username });
-    return undefined;
-  }
-}
-
-interface LoadSpotifyUser {
-  perform: (params: LoadSpotifyUser.Params) => Promise<void>;
-}
-
-namespace LoadSpotifyUser {
-  export type Params = {
-    username: string;
-  };
-
-  export type Result = undefined;
-}
+import { LoadSpotifyUser } from "@/data/interfaces";
+import { SpotifyPublicProfileService } from "@/data/services";
 
 class LoadSpotifyUserSpy implements LoadSpotifyUser {
   public username?: string;
