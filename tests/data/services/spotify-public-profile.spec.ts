@@ -1,11 +1,17 @@
 import { LoadSpotifyUser } from "@/data/interfaces";
 import { SpotifyPublicProfileService } from "@/data/services";
-import { mock } from "jest-mock-extended";
+import { mock, MockProxy } from "jest-mock-extended";
 
 describe("SpotifyPublicProfileService", () => {
+  let loadSpotifyUser: MockProxy<LoadSpotifyUser>;
+  let sut: SpotifyPublicProfileService;
+
+  beforeEach(() => {
+    loadSpotifyUser = mock();
+    sut = new SpotifyPublicProfileService(loadSpotifyUser);
+  });
+
   it("should to call spotify public profile with correct params", async () => {
-    const loadSpotifyUser = mock<LoadSpotifyUser>();
-    const sut = new SpotifyPublicProfileService(loadSpotifyUser);
     await sut.perform({
       username: "any_username",
     });
@@ -16,8 +22,6 @@ describe("SpotifyPublicProfileService", () => {
   });
 
   it("should return undefined when loadSpotifyUser returns undefined", async () => {
-    const loadSpotifyUser = mock<LoadSpotifyUser>();
-    loadSpotifyUser.perform.mockResolvedValueOnce(undefined);
     const sut = new SpotifyPublicProfileService(loadSpotifyUser);
     const result = await sut.perform({
       username: "any_username",
