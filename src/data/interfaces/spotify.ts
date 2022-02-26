@@ -1,8 +1,8 @@
-export interface LoadSpotifyUser {
-  perform: (params: LoadSpotifyUser.Params) => Promise<void>;
+export interface LoadUser {
+  perform: (params: LoadUser.Params) => Promise<void>;
 }
 
-export namespace LoadSpotifyUser {
+export namespace LoadUser {
   export type Params = {
     username: string;
   };
