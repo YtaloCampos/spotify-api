@@ -1,17 +1,25 @@
 import { SpotifyPublicProfile } from "@/domain/features";
 import { LoadUserApi } from "../interfaces/apis";
-import { LoadUserRepository } from "../interfaces/repositories";
+import {
+  CreateUserRepository,
+  LoadUserRepository,
+} from "../interfaces/repositories";
 
 export class SpotifyPublicProfileService {
   constructor(
     private readonly spotifyAPi: LoadUserApi,
-    private readonly loadUserRepo: LoadUserRepository
+    private readonly userRepository: LoadUserRepository & CreateUserRepository
   ) {}
 
   async perform(params: SpotifyPublicProfile.Params): Promise<void> {
     const result = await this.spotifyAPi.perform({ username: params.username });
     if (result !== undefined) {
-      await this.loadUserRepo.perform({ spotifyId: result.id });
+      await this.userRepository.load({ spotifyId: result.id });
+      await this.userRepository.create({
+        username: result.display_name,
+        publicProfile: result.external_urls.spotify,
+        spotifyId: result.id,
+      });
     }
     return undefined;
   }

@@ -1,11 +1,14 @@
-import { LoadUserRepository } from "./../../../src/data/interfaces/repositories/user";
+import {
+  CreateUserRepository,
+  LoadUserRepository,
+} from "./../../../src/data/interfaces/repositories/user";
 import { LoadUserApi } from "@/data/interfaces/apis";
 import { SpotifyPublicProfileService } from "@/data/services";
 import { mock, MockProxy } from "jest-mock-extended";
 
 describe("SpotifyPublicProfileService", () => {
   let loadSpotifyUser: MockProxy<LoadUserApi>;
-  let loadUserRepository: MockProxy<LoadUserRepository>;
+  let userRepository: MockProxy<LoadUserRepository & CreateUserRepository>;
   let sut: SpotifyPublicProfileService;
 
   beforeEach(() => {
@@ -15,8 +18,8 @@ describe("SpotifyPublicProfileService", () => {
       external_urls: { spotify: "any_external_url" },
       id: "any_id",
     });
-    loadUserRepository = mock();
-    sut = new SpotifyPublicProfileService(loadSpotifyUser, loadUserRepository);
+    userRepository = mock();
+    sut = new SpotifyPublicProfileService(loadSpotifyUser, userRepository);
   });
 
   it("should to call spotify public profile with correct params", async () => {
@@ -41,9 +44,24 @@ describe("SpotifyPublicProfileService", () => {
       username: "any_username",
     });
 
-    expect(loadUserRepository.perform).toHaveBeenCalledWith({
+    expect(userRepository.load).toHaveBeenCalledWith({
       spotifyId: "any_id",
     });
-    expect(loadUserRepository.perform).toHaveBeenCalledTimes(1);
+    expect(userRepository.load).toHaveBeenCalledTimes(1);
+  });
+
+  it("should to call CreateUserRepository when LoadUserRepository returns undefined", async () => {
+    userRepository.load.mockResolvedValueOnce(undefined);
+
+    await sut.perform({
+      username: "any_username",
+    });
+
+    expect(userRepository.create).toHaveBeenCalledWith({
+      username: "any_display_name",
+      publicProfile: "any_external_url",
+      spotifyId: "any_id",
+    });
+    expect(userRepository.create).toHaveBeenCalledTimes(1);
   });
 });
