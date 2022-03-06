@@ -1,8 +1,8 @@
-export interface LoadUserRepository {
-  load: (params: LoadUserRepository.Params) => Promise<LoadUserRepository.Result>;
+export interface LoadUserAccountRepository {
+  load: (params: LoadUserAccountRepository.Params) => Promise<LoadUserAccountRepository.Result>;
 }
 
-export namespace LoadUserRepository {
+export namespace LoadUserAccountRepository {
   export type Params = {
     spotifyId: string;
   };
@@ -13,23 +13,11 @@ export namespace LoadUserRepository {
   } | undefined;
 }
 
-export interface CreateUserRepository {
-  create: (params: CreateUserRepository.Params) => Promise<void>;
+export interface SaveUserAccountRepository {
+  save: (params: SaveUserAccountRepository.Params) => Promise<void>;
 }
 
-export namespace CreateUserRepository {
-  export type Params = {
-    username: string;
-    publicProfile: string;
-    spotifyId: string;
-  };
-}
-
-export interface UpdateUserRepository {
-  update: (params: UpdateUserRepository.Params) => Promise<void>;
-}
-
-export namespace UpdateUserRepository {
+export namespace SaveUserAccountRepository {
   export type Params = {
     username: string;
     publicProfile: string;

@@ -1,8 +1,8 @@
-export interface LoadUserApi {
-  perform: (params: LoadUserApi.Params) => Promise<LoadUserApi.Result>;
+export interface LoadSpotifyUserApi {
+  perform: (params: LoadSpotifyUserApi.Params) => Promise<LoadSpotifyUserApi.Result>;
 }
 
-export namespace LoadUserApi {
+export namespace LoadSpotifyUserApi {
   type ExternalUrls = { spotify: string };
 
   export type Params = {
