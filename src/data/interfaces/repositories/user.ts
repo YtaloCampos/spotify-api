@@ -1,5 +1,5 @@
 export interface LoadUserRepository {
-  load: (params: LoadUserRepository.Params) => Promise<void>;
+  load: (params: LoadUserRepository.Params) => Promise<LoadUserRepository.Result>;
 }
 
 export namespace LoadUserRepository {
@@ -10,7 +10,7 @@ export namespace LoadUserRepository {
   export type Result = {
     username: string;
     publicProfile: string;
-  };
+  } | undefined;
 }
 
 export interface CreateUserRepository {
@@ -18,6 +18,18 @@ export interface CreateUserRepository {
 }
 
 export namespace CreateUserRepository {
+  export type Params = {
+    username: string;
+    publicProfile: string;
+    spotifyId: string;
+  };
+}
+
+export interface UpdateUserRepository {
+  update: (params: UpdateUserRepository.Params) => Promise<void>;
+}
+
+export namespace UpdateUserRepository {
   export type Params = {
     username: string;
     publicProfile: string;
