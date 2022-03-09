@@ -8,14 +8,14 @@ import {
 export class SpotifyPublicProfileService {
   constructor(
     private readonly spotifyApi: LoadSpotifyUserApi,
-    private readonly userRepository: LoadUserAccountRepository & SaveUserAccountRepository
+    private readonly userAccountRepository: LoadUserAccountRepository & SaveUserAccountRepository
   ) {}
 
   async perform(params: SpotifyPublicProfile.Params): Promise<void> {
     const spotifyUser = await this.spotifyApi.perform({ username: params.username });
     if (spotifyUser !== undefined) {
-      const userData = await this.userRepository.load({ spotifyId: spotifyUser.id });
-      await this.userRepository.save({
+      const userData = await this.userAccountRepository.load({ spotifyId: spotifyUser.id });
+      await this.userAccountRepository.save({
         id: userData?.id,
         username: spotifyUser.display_name,
         publicProfile: spotifyUser.external_urls.spotify,
