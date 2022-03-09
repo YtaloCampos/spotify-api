@@ -8,6 +8,7 @@ export namespace LoadUserAccountRepository {
   };
 
   export type Result = {
+    id: string;
     username: string;
     publicProfile: string;
   } | undefined;
@@ -19,6 +20,7 @@ export interface SaveUserAccountRepository {
 
 export namespace SaveUserAccountRepository {
   export type Params = {
+    id?: string;
     username: string;
     publicProfile: string;
     spotifyId: string;

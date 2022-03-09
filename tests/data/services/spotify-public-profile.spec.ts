@@ -66,6 +66,7 @@ describe("SpotifyPublicProfileService", () => {
 
   it("shoud to update user when LoadUserAccountRepository returns data", async () => {
     userRepository.load.mockResolvedValueOnce({
+      id: "any_id",
       username: "any_username",
       publicProfile: "any_public_profile",
     })
@@ -75,6 +76,7 @@ describe("SpotifyPublicProfileService", () => {
     });
 
     expect(userRepository.save).toHaveBeenCalledWith({
+      id: "any_id",
       username: "any_display_name",
       publicProfile: "any_external_url",
       spotifyId: "any_id",
