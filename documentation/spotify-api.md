@@ -1,6 +1,6 @@
 # Spotify API
 
->> ## Short-lived token
+> ## Short-lived token
 * Request to https://accounts.spotify.com/api/token
 * Verb POST
 * Options
@@ -9,7 +9,7 @@
     - json: true
 * Result: { access_token }
 
->> ## Public Profile
+> ## Public Profile
 * Request to https://api.spotify.com/v1/users
 * Verb POST
 * Params: username
