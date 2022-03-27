@@ -15,12 +15,14 @@ export class SpotifyPublicProfileService {
     const spotifyUser = await this.spotifyApi.perform({ username: params.username });
     if (spotifyUser !== undefined) {
       const userData = await this.userAccountRepository.load({ spotifyId: spotifyUser.id });
-      await this.userAccountRepository.save({
-        id: userData?.id,
-        username: spotifyUser.display_name,
-        publicProfile: spotifyUser.external_urls.spotify,
-        spotifyId: spotifyUser.id,
-      });
+      if (spotifyUser?.display_name !== userData?.username) {
+        await this.userAccountRepository.save({
+          id: userData?.id,
+          username: spotifyUser.display_name,
+          publicProfile: spotifyUser.external_urls.spotify,
+          spotifyId: spotifyUser.id,
+        });
+      }
     }
     return undefined;
   }
