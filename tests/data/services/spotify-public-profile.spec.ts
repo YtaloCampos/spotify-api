@@ -33,7 +33,7 @@ describe("SpotifyPublicProfileService", () => {
     expect(loadSpotifyUser.perform).toHaveBeenCalledTimes(1);
   });
 
-  it("should return undefined when loadSpotifyUser returns undefined", async () => {
+  it("should return undefined when LoadSpotifyUserApi returns undefined", async () => {
     const result = await sut.perform({
       username: "any_username",
     });
@@ -82,5 +82,35 @@ describe("SpotifyPublicProfileService", () => {
       spotifyId: "any_id",
     });
     expect(userAccountRepository.save).toHaveBeenCalledTimes(1);
-  })
+  });
+
+  it("should rethrow if LoadSpotifyUserApi throws", async () => {
+    loadSpotifyUser.perform.mockRejectedValueOnce(new Error('spotify_error'))
+
+    const promise = sut.perform({
+      username: "any_username",
+    });
+
+    await expect(promise).rejects.toThrow(new Error('spotify_error'));
+  });
+
+  it("should rethrow if LoadUserAccountRepository throws", async () => {
+    userAccountRepository.load.mockRejectedValueOnce(new Error('load_error'))
+
+    const promise = sut.perform({
+      username: "any_username",
+    });
+
+    await expect(promise).rejects.toThrow(new Error('load_error'));
+  });
+
+  it("should rethrow if SaveUserAccountRepository throws", async () => {
+    userAccountRepository.save.mockRejectedValueOnce(new Error('save_error'))
+
+    const promise = sut.perform({
+      username: "any_username",
+    });
+
+    await expect(promise).rejects.toThrow(new Error('save_error'));
+  });
 });
