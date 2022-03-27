@@ -7,30 +7,30 @@ import { SpotifyPublicProfileService } from "@/data/services";
 import { mock, MockProxy } from "jest-mock-extended";
 
 describe("SpotifyPublicProfileService", () => {
-  let loadSpotifyUser: MockProxy<LoadSpotifyUserApi>;
+  let spotifyApi: MockProxy<LoadSpotifyUserApi>;
   let userAccountRepository: MockProxy<LoadUserAccountRepository & SaveUserAccountRepository>;
   let sut: SpotifyPublicProfileService;
 
   beforeEach(() => {
-    loadSpotifyUser = mock();
-    loadSpotifyUser.perform.mockResolvedValue({
+    spotifyApi = mock();
+    spotifyApi.perform.mockResolvedValue({
       display_name: "any_display_name",
       external_urls: { spotify: "any_external_url" },
       id: "any_id",
     });
     userAccountRepository = mock();
     userAccountRepository.load.mockResolvedValue(undefined);
-    sut = new SpotifyPublicProfileService(loadSpotifyUser, userAccountRepository);
+    sut = new SpotifyPublicProfileService(spotifyApi, userAccountRepository);
   });
 
   it("should to call spotify public profile with correct params", async () => {
     await sut.perform({
       username: "any_username",
     });
-    expect(loadSpotifyUser.perform).toHaveBeenCalledWith({
+    expect(spotifyApi.perform).toHaveBeenCalledWith({
       username: "any_username",
     });
-    expect(loadSpotifyUser.perform).toHaveBeenCalledTimes(1);
+    expect(spotifyApi.perform).toHaveBeenCalledTimes(1);
   });
 
   it("should return undefined when LoadSpotifyUserApi returns undefined", async () => {
@@ -85,7 +85,7 @@ describe("SpotifyPublicProfileService", () => {
   });
 
   it("should rethrow if LoadSpotifyUserApi throws", async () => {
-    loadSpotifyUser.perform.mockRejectedValueOnce(new Error('spotify_error'))
+    spotifyApi.perform.mockRejectedValueOnce(new Error('spotify_error'))
 
     const promise = sut.perform({
       username: "any_username",
