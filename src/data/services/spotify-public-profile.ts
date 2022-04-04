@@ -5,15 +5,15 @@ import {
   LoadUserAccountRepository,
 } from '../interfaces/repositories'
 
-export class SpotifyPublicProfileService {
+export class SpotifyPublicProfileService implements SpotifyPublicProfile {
   constructor(
     private readonly spotifyApi: LoadSpotifyUserApi,
     private readonly userAccountRepository: LoadUserAccountRepository &
     SaveUserAccountRepository
   ) {}
 
-  async perform(params: SpotifyPublicProfile.Params): Promise<void> {
-    const spotifyUser = await this.spotifyApi.perform({
+  async perform(params: SpotifyPublicProfile.Params): Promise<SpotifyPublicProfile.Result> {
+    const spotifyUser = await this.spotifyApi.loadUser({
       username: params.username,
     })
     if (spotifyUser !== undefined) {
@@ -29,6 +29,6 @@ export class SpotifyPublicProfileService {
         })
       }
     }
-    return undefined
+    return spotifyUser
   }
 }

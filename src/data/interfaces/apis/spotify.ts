@@ -1,5 +1,5 @@
 export interface LoadSpotifyUserApi {
-  perform: (params: LoadSpotifyUserApi.Params) => Promise<LoadSpotifyUserApi.Result>;
+  loadUser: (params: LoadSpotifyUserApi.Params) => Promise<LoadSpotifyUserApi.Result>;
 }
 
 export namespace LoadSpotifyUserApi {

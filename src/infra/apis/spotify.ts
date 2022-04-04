@@ -1,7 +1,7 @@
 import { LoadSpotifyUserApi } from '@/data/interfaces/apis/spotify'
 import { HttpGetClient } from '@/infra/http'
 
-export class SpotifyApi {
+export class SpotifyApi implements LoadSpotifyUserApi {
   private readonly baseUrl = 'https://accounts.spotify.com/api/token'
 
   constructor(
@@ -10,9 +10,9 @@ export class SpotifyApi {
     private readonly clientSecret: string
   ) {}
 
-  async loadUser(params: LoadSpotifyUserApi.Params): Promise<void> {
-    await this.httpGetClient.get({
-      url: this.baseUrl,
+  async loadUser(params: LoadSpotifyUserApi.Params): Promise<LoadSpotifyUserApi.Result> {
+    return await this.httpGetClient.get({
+      url: `${this.baseUrl}/${params.username}`,
       headers: {
         Authorization:
           'Basic ' +

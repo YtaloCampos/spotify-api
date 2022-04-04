@@ -15,7 +15,7 @@ describe('SpotifyPublicProfileService', () => {
 
   beforeEach(() => {
     spotifyApi = mock()
-    spotifyApi.perform.mockResolvedValue({
+    spotifyApi.loadUser.mockResolvedValue({
       display_name: 'any_display_name',
       external_urls: { spotify: 'any_external_url' },
       id: 'any_id',
@@ -29,17 +29,10 @@ describe('SpotifyPublicProfileService', () => {
     await sut.perform({
       username: 'any_username',
     })
-    expect(spotifyApi.perform).toHaveBeenCalledWith({
+    expect(spotifyApi.loadUser).toHaveBeenCalledWith({
       username: 'any_username',
     })
-    expect(spotifyApi.perform).toHaveBeenCalledTimes(1)
-  })
-
-  it('should return undefined when LoadSpotifyUserApi returns undefined', async () => {
-    const result = await sut.perform({
-      username: 'any_username',
-    })
-    expect(result).toBe(undefined)
+    expect(spotifyApi.loadUser).toHaveBeenCalledTimes(1)
   })
 
   it('should to call LoadUserAccountRepository and returns data', async () => {
@@ -87,7 +80,7 @@ describe('SpotifyPublicProfileService', () => {
   })
 
   it('should rethrow if LoadSpotifyUserApi throws', async () => {
-    spotifyApi.perform.mockRejectedValueOnce(new Error('spotify_error'))
+    spotifyApi.loadUser.mockRejectedValueOnce(new Error('spotify_error'))
 
     const promise = sut.perform({
       username: 'any_username',

@@ -15,6 +15,13 @@ describe('SpotifyApi', () => {
   })
 
   beforeEach(() => {
+    httpClient.get.mockResolvedValueOnce({
+      display_name: 'any_display_name',
+      external_urls: {
+        spotify: 'any_spotify_external_urls'
+      },
+      id: 'any_id'
+    })
     sut = new SpotifyApi(httpClient, clientId, clientSecret)
   })
 
@@ -22,7 +29,7 @@ describe('SpotifyApi', () => {
     await sut.loadUser({ username: 'any_username' })
 
     expect(httpClient.get).toHaveBeenCalledWith({
-      url: 'https://accounts.spotify.com/api/token',
+      url: 'https://accounts.spotify.com/api/token/any_username',
       headers: {
         Authorization:
           'Basic ' +
@@ -32,6 +39,18 @@ describe('SpotifyApi', () => {
         grant_type: 'client_credentials',
       },
       json: true,
+    })
+  })
+
+  it('shoud to return spotify user', async () => {
+    const spotifyUser = await sut.loadUser({ username: 'any_username' })
+
+    expect(spotifyUser).toEqual({
+      display_name: 'any_display_name',
+      external_urls: {
+        spotify: 'any_spotify_external_urls'
+      },
+      id: 'any_id'
     })
   })
 })

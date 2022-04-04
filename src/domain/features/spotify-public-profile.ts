@@ -4,7 +4,7 @@ type Params = SpotifyPublicProfile.Params;
 type Result = SpotifyPublicProfile.Result;
 
 export interface SpotifyPublicProfile {
-  perform: (params: Params) => Result;
+  perform: (params: Params) => Promise<Result>;
 }
 
 export namespace SpotifyPublicProfile {
