@@ -15,12 +15,12 @@ describe('SpotifyApi', () => {
   })
 
   beforeEach(() => {
-    httpClient.get.mockResolvedValueOnce({
+    httpClient.get.mockResolvedValue({
       display_name: 'any_display_name',
       external_urls: {
-        spotify: 'any_spotify_external_urls'
+        spotify: 'any_spotify_external_urls',
       },
-      id: 'any_id'
+      id: 'any_id',
     })
     sut = new SpotifyApi(httpClient, clientId, clientSecret)
   })
@@ -48,9 +48,17 @@ describe('SpotifyApi', () => {
     expect(spotifyUser).toEqual({
       display_name: 'any_display_name',
       external_urls: {
-        spotify: 'any_spotify_external_urls'
+        spotify: 'any_spotify_external_urls',
       },
-      id: 'any_id'
+      id: 'any_id',
     })
+  })
+
+  it('should to rethrow if HttpGetClient throws', async () => {
+    httpClient.get.mockRejectedValueOnce(new Error('get_error'))
+
+    const promise = sut.loadUser({ username: 'any_username' })
+
+    await expect(promise).rejects.toThrow(new Error('get_error'))
   })
 })
