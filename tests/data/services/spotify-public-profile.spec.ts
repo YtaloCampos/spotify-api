@@ -1,7 +1,7 @@
 import {
   LoadUserAccountRepository,
   SaveUserAccountRepository,
-} from '../../../src/data/interfaces/repositories/userAccount'
+} from '../../../src/data/interfaces/repositories/user-account'
 import { LoadSpotifyUserApi } from '@/data/interfaces/apis'
 import { SpotifyPublicProfileService } from '@/data/services'
 import { mock, MockProxy } from 'jest-mock-extended'
@@ -62,6 +62,7 @@ describe('SpotifyPublicProfileService', () => {
   it('shoud to update user when LoadUserAccountRepository returns data', async () => {
     userAccountRepository.load.mockResolvedValueOnce({
       id: 'any_id',
+      spotifyId: 'any_spotify_id',
       username: 'any_username',
       publicProfile: 'any_public_profile',
     })

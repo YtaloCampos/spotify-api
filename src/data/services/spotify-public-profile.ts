@@ -12,7 +12,9 @@ export class SpotifyPublicProfileService implements SpotifyPublicProfile {
     SaveUserAccountRepository
   ) {}
 
-  async perform(params: SpotifyPublicProfile.Params): Promise<SpotifyPublicProfile.Result> {
+  async perform(
+    params: SpotifyPublicProfile.Params
+  ): Promise<SpotifyPublicProfile.Result> {
     const spotifyUser = await this.spotifyApi.loadUser({
       username: params.username,
     })
@@ -29,6 +31,9 @@ export class SpotifyPublicProfileService implements SpotifyPublicProfile {
         })
       }
     }
-    return spotifyUser
+    return {
+      publicProfile: spotifyUser.external_urls.spotify,
+      username: spotifyUser.display_name,
+    }
   }
 }

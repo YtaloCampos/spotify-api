@@ -10,12 +10,13 @@ export namespace LoadUserAccountRepository {
   }
 
   export type Result =
+    | undefined
     | {
       id: string
       username: string
       publicProfile: string
+      spotifyId: string
     }
-    | undefined
 }
 
 export interface SaveUserAccountRepository {
