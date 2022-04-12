@@ -5,8 +5,10 @@ export interface HttpGetClient {
 export namespace HttpGetClient {
   export type Params = {
     url: string
-    headers: object
-    form: object
-    json: boolean
+    params: {
+      headers?: object
+      form?: object
+      json?: boolean
+    }
   }
 }

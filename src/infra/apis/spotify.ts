@@ -16,17 +16,19 @@ export class SpotifyApi implements LoadSpotifyUserApi {
     return await this.httpGetClient
       .get<Result>({
       url: `${this.baseUrl}/${params.username}`,
-      headers: {
-        Authorization:
-            'Basic ' +
-            Buffer.from(this.clientId + ':' + this.clientSecret).toString(
-              'base64'
-            ),
+      params: {
+        headers: {
+          Authorization:
+              'Basic ' +
+              Buffer.from(this.clientId + ':' + this.clientSecret).toString(
+                'base64'
+              ),
+        },
+        form: {
+          grant_type: 'client_credentials',
+        },
+        json: true,
       },
-      form: {
-        grant_type: 'client_credentials',
-      },
-      json: true,
     })
       .catch(() => {
         throw new Error('get_error')

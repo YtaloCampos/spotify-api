@@ -30,15 +30,17 @@ describe('SpotifyApi', () => {
 
     expect(httpClient.get).toHaveBeenCalledWith({
       url: 'https://accounts.spotify.com/api/token/any_username',
-      headers: {
-        Authorization:
-          'Basic ' +
-          Buffer.from(clientId + ':' + clientSecret).toString('base64'),
+      params: {
+        headers: {
+          Authorization:
+            'Basic ' +
+            Buffer.from(clientId + ':' + clientSecret).toString('base64'),
+        },
+        form: {
+          grant_type: 'client_credentials',
+        },
+        json: true,
       },
-      form: {
-        grant_type: 'client_credentials',
-      },
-      json: true,
     })
   })
 
